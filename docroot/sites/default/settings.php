@@ -901,7 +901,19 @@ require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/ac
  * @link https://docs.acquia.com/
  */
 
+
 if (file_exists('/var/www/site-php')) {
-           require '/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '/' . $_ENV['AH_SITE_GROUP'] . '-settings.inc';
-          }
+  global $conf, $databases;
+  $conf['acquia_hosting_settings_autoconnect'] = FALSE;
+  // EDIT next line to proper path to include file.
+  require '/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '/' . $_ENV['AH_SITE_GROUP'] . '-settings.inc';
+  $databases['default']['default']['init_commands'] = array(
+    'isolation' => "SET SESSION tx_isolation='READ-COMMITTED'",
+  );
+  if (function_exists("acquia_hosting_db_choose_active")) {
+    acquia_hosting_db_choose_active();
+  }
+}
+
+
 $settings['config_sync_directory'] = $app_root . '/../config/' . basename($site_path);
