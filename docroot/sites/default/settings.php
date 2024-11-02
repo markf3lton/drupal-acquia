@@ -900,3 +900,8 @@ require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/ac
  *
  * @link https://docs.acquia.com/
  */
+
+if (file_exists('/var/www/site-php')) {
+           require '/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '/' . $_ENV['AH_SITE_GROUP'] . '-settings.inc';
+          }
+$settings['config_sync_directory'] = $app_root . '/../config/' . basename($site_path);
