@@ -912,6 +912,7 @@ if (file_exists('/var/www/site-php')) {
   if (function_exists("acquia_hosting_db_choose_active")) {
     acquia_hosting_db_choose_active();
   }
+}
 
 
 $settings['config_sync_directory'] = $app_root . '/../config/' . basename($site_path);
