@@ -901,18 +901,16 @@ require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/ac
  * @link https://docs.acquia.com/
  */
 
+// This version of the Acquia require line uses the AH_SITE_GROUP environment variable so
+// the code will run in any Acquia environment or IDE. See more at:
+// https://docs.acquia.com/acquia-cloud-platform/manage-apps/code/require-line
 if (file_exists('/var/www/site-php')) {
-  global $conf, $databases;
-  $conf['acquia_hosting_settings_autoconnect'] = FALSE;
-  require('/var/www/site-php/eemfelton2/eemfelton2-settings.inc');
-  $databases['default']['default']['init_commands'] = array(
-    'isolation_level' => "SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED",
-  );
-  if (function_exists("acquia_hosting_db_choose_active")) {
-    acquia_hosting_db_choose_active();
-  }
+  require '/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '/' . $_ENV['AH_SITE_GROUP'] . '-settings.inc';
 }
 
-
-
+// This sets the config_sync_directory so that configuration management strategies can be used
+// with drush cex and drush cim.
 $settings['config_sync_directory'] = $app_root . '/../config/' . basename($site_path);
+
+
+
